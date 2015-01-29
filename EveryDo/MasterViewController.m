@@ -96,13 +96,13 @@
 	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TodoCell" forIndexPath:indexPath];
 	
 	Todo* todo = self.todos[indexPath.row];
-
+	
 	// Populate custom Todo table cell
 	UILabel *titleLabel = (UILabel *)[cell viewWithTag:100];
-	titleLabel.text = todo.titleText;
+	titleLabel.attributedText = [MasterViewController string:todo.titleText withStrikethrough:todo.isCompleted];
  
 	UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:101];
-	descriptionLabel.text = todo.descriptionText;
+	descriptionLabel.attributedText = [MasterViewController string:todo.descriptionText withStrikethrough:todo.isCompleted];
 	descriptionLabel.font = [descriptionLabel.font fontWithSize:descriptionLabel.font.pointSize - 3];
 	
 	UILabel *priorityLabel = (UILabel *)[cell viewWithTag:102];
@@ -132,6 +132,18 @@
 	} else if (editingStyle == UITableViewCellEditingStyleInsert) {
 		// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
 	}
+}
+
+
+#
+# pragma mark - Helpers
+#
+
+
++ (NSAttributedString*)string:(NSString*)string withStrikethrough:(BOOL)strikethrough {
+	
+	return [[NSAttributedString alloc] initWithString:string
+										   attributes:strikethrough ? @{NSStrikethroughStyleAttributeName : @(NSUnderlineStyleSingle)} : @{}];
 }
 
 
