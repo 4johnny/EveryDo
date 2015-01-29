@@ -7,21 +7,52 @@
 //
 
 #import "AppDelegate.h"
+#import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "Todo.h"
+
 
 @interface AppDelegate () <UISplitViewControllerDelegate>
 
+@property (nonatomic) NSMutableArray* todos;
+
 @end
+
 
 @implementation AppDelegate
 
 
+- (void)loadModel {
+	
+	self.todos = [NSMutableArray arrayWithCapacity:5];
+	
+	[self.todos addObject:[Todo todoWithTitle:@"Do laundry" andDescription:@"Laundromat closes at 9pm" andPriorityNumber:1 andCompleted:NO]];
+	
+	[self.todos addObject:[Todo todoWithTitle:@"Get haircut" andDescription:@"Haircut with Julia" andPriorityNumber:3 andCompleted:YES]];
+
+	[self.todos addObject:[Todo todoWithTitle:@"Mow lawn" andDescription:@"Mow front lawn today, also prune tree" andPriorityNumber:2 andCompleted:NO]];
+
+	[self.todos addObject:[Todo todoWithTitle:@"Grocery shopping" andDescription:@"Don't forget bananas" andPriorityNumber:4 andCompleted:NO]];
+	
+	[self.todos addObject:[Todo todoWithTitle:@"Do homework" andDescription:@"Assignments 4 & 5" andPriorityNumber:4 andCompleted:YES]];
+}
+
+
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
 	// Override point for customization after application launch.
+	
+	// Set up split view controller.
 	UISplitViewController *splitViewController = (UISplitViewController *)self.window.rootViewController;
-	UINavigationController *navigationController = [splitViewController.viewControllers lastObject];
-	navigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
+	UINavigationController *secondaryNavigationController = [splitViewController.viewControllers lastObject];
+	secondaryNavigationController.topViewController.navigationItem.leftBarButtonItem = splitViewController.displayModeButtonItem;
 	splitViewController.delegate = self;
+
+	// Load model, and inject into master view controller.
+	[self loadModel];
+	UINavigationController *primaryNavigationController = [splitViewController.viewControllers firstObject];
+	MasterViewController* masterViewController = primaryNavigationController.viewControllers[0];
+	masterViewController.todos = self.todos;
+	
 	return YES;
 }
 
