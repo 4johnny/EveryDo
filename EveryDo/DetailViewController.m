@@ -7,6 +7,7 @@
 //
 
 #import "DetailViewController.h"
+#import "Todo.h"
 
 
 @interface DetailViewController ()
@@ -23,6 +24,7 @@
 
 
 - (void)setDetailItem:(id)newDetailItem {
+	
 	if (_detailItem != newDetailItem) {
 	    _detailItem = newDetailItem;
 	        
@@ -34,13 +36,20 @@
 
 - (void)configureView {
 	// Update the user interface for the detail item.
+	
 	if (self.detailItem) {
-	    self.detailDescriptionLabel.text = [self.detailItem description];
+		Todo* todo = (Todo*)self.detailItem;
+		
+		self.titleLabel.text = todo.titleText;
+	    self.descriptionLabel.text = todo.descriptionText;
+		self.priorityLabel.text = [NSString stringWithFormat:@"%d", todo.priorityNumber];
+		self.completedLabel.text = todo.isCompleted ? @"YES" : @"NO";
 	}
 }
 
 
 - (void)viewDidLoad {
+	
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
 	[self configureView];
@@ -48,6 +57,7 @@
 
 
 - (void)didReceiveMemoryWarning {
+	
 	[super didReceiveMemoryWarning];
 	// Dispose of any resources that can be recreated.
 }
