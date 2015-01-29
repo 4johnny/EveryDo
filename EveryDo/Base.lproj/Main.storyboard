@@ -161,7 +161,7 @@
                             <outlet property="delegate" destination="7bK-jq-Zjz" id="RA6-mI-bju"/>
                         </connections>
                     </tableView>
-                    <navigationItem key="navigationItem" title="Master" id="Zdf-7t-Un8">
+                    <navigationItem key="navigationItem" title="EveryDo List" id="Zdf-7t-Un8">
                         <barButtonItem key="rightBarButtonItem" systemItem="add" id="vTL-j8-aZM">
                             <connections>
                                 <segue destination="4wt-mw-iiy" kind="presentation" identifier="addTodo" id="ftj-LU-AJI"/>
