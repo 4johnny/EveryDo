@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "TodoTableViewCell.h"
 #import "Todo.h"
 
 
@@ -93,25 +94,16 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
 	
-	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TodoCell" forIndexPath:indexPath];
-	
+	TodoTableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"TodoCell" forIndexPath:indexPath];
 	Todo* todo = self.todos[indexPath.row];
-	
-	// Populate custom Todo table cell
-	UILabel *titleLabel = (UILabel *)[cell viewWithTag:100];
-	titleLabel.attributedText = [MasterViewController string:todo.titleText withStrikethrough:todo.isCompleted];
+
+	cell.titleLabel.attributedText = [MasterViewController string:todo.titleText withStrikethrough:todo.isCompleted];
  
-	UILabel *descriptionLabel = (UILabel *)[cell viewWithTag:101];
-	descriptionLabel.attributedText = [MasterViewController string:todo.descriptionText withStrikethrough:todo.isCompleted];
-	descriptionLabel.font = [descriptionLabel.font fontWithSize:descriptionLabel.font.pointSize - 3];
+	cell.descriptionLabel.attributedText = [MasterViewController string:todo.descriptionText withStrikethrough:todo.isCompleted];
+	cell.descriptionLabel.font = [cell.descriptionLabel.font fontWithSize:cell.descriptionLabel.font.pointSize - 3];
 	
-	UILabel *priorityLabel = (UILabel *)[cell viewWithTag:102];
-	priorityLabel.text = [NSString stringWithFormat:@"%d", todo.priorityNumber];
-	
-	//	// Standard cell
-	//	cell.textLabel.text = todo.titleText;
-	//	cell.detailTextLabel.text = todo.descriptionText;
-	
+	cell.priorityLabel.text = [NSString stringWithFormat:@"%d", todo.priorityNumber];
+
 	return cell;
 }
 

@@ -120,6 +120,9 @@
                                 </tableViewCellContentView>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <connections>
+                                    <outlet property="descriptionLabel" destination="y4D-sI-z5F" id="7Xg-V7-jeT"/>
+                                    <outlet property="priorityLabel" destination="al7-YF-52n" id="6gY-qI-N5t"/>
+                                    <outlet property="titleLabel" destination="VVy-kX-26J" id="7HZ-ee-CfT"/>
                                     <segue destination="vC3-pB-5Vb" kind="showDetail" identifier="showDetail" id="6S0-TO-JiA"/>
                                 </connections>
                             </tableViewCell>
