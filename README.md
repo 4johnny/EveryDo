@@ -7,4 +7,7 @@ iOS Bootcamp Assignment - W3D3 - EveryDo
 * UITableView
 * UITableViewCell
 * UIPickerView
+* NSAttributedString
 * Swipe gesture
+* Protocol
+* Delegate

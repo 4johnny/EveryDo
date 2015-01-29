@@ -32,10 +32,12 @@
 - (void)viewDidLoad {
 	[super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+	
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 	
-	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-	self.navigationItem.rightBarButtonItem = addButton;
+//	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+//	self.navigationItem.rightBarButtonItem = addButton;
+	
 	self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
 
@@ -46,16 +48,6 @@
 }
 
 
-- (void)insertNewObject:(id)sender {
-	//	if (!self.todos) {
-	//		self.todos = [[NSMutableArray alloc] init];
-	//	}
-	//	[self.todos insertObject:[NSDate date] atIndex:0];
-	//	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-	//	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
-}
-
-
 #
 # pragma mark - Segues
 #
@@ -63,14 +55,20 @@
 
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
 	
-	if ([[segue identifier] isEqualToString:@"showDetail"]) {
+	if ([segue.identifier isEqualToString:@"showDetail"]) {
 		
 		NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
 		Todo* todo = self.todos[indexPath.row];
-		DetailViewController *controller = (DetailViewController *)[[segue destinationViewController] topViewController];
+		
+		DetailViewController *controller = (DetailViewController *)[segue.destinationViewController topViewController];
 		[controller setDetailItem:todo];
 		controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
 		controller.navigationItem.leftItemsSupplementBackButton = YES;
+		
+	} else if ([segue.identifier isEqualToString:@"addTodo"]) {
+		
+		AddTodoViewController* controller = (AddTodoViewController*)[segue.destinationViewController topViewController];
+		controller.delegate = self;		
 	}
 }
 
@@ -124,6 +122,33 @@
 	} else if (editingStyle == UITableViewCellEditingStyleInsert) {
 		// Create a new instance of the appropriate class, insert it into the array, and add a new row to the table view.
 	}
+}
+
+
+#
+# pragma mark - PlayerDetailsViewControllerDelegate
+#
+
+
+- (void)addTodoViewControllerDidCancel:(AddTodoViewController*)controller {
+	
+	[self dismissViewControllerAnimated:YES completion:nil];
+}
+
+
+- (void)addTodoViewController:(AddTodoViewController*)controller didAddTodo:(Todo*)todo {
+
+	[self dismissViewControllerAnimated:YES completion:nil];
+
+	if (!self.todos) {
+		self.todos = [[NSMutableArray alloc] init];
+	}
+	
+	[self.todos insertObject:todo atIndex:0];
+	
+	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
+
+	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
 }
 
 

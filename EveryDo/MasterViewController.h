@@ -7,10 +7,11 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "AddTodoViewController.h"
 
 @class DetailViewController;
 
-@interface MasterViewController : UITableViewController <UITableViewDataSource>
+@interface MasterViewController : UITableViewController <UITableViewDataSource, AddTodoViewControllerDelegate>
 
 @property NSMutableArray *todos;
 
