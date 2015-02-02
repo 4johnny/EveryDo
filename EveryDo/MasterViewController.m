@@ -98,7 +98,7 @@
 	cell.titleLabel.attributedText = [MasterViewController string:todo.titleText withStrikethrough:todo.isCompleted];
  
 	cell.descriptionLabel.attributedText = [MasterViewController string:todo.descriptionText withStrikethrough:todo.isCompleted];
-	cell.descriptionLabel.font = [cell.descriptionLabel.font fontWithSize:cell.descriptionLabel.font.pointSize - 3];
+//	cell.descriptionLabel.font = [cell.descriptionLabel.font fontWithSize:cell.descriptionLabel.font.pointSize - 3];
 	
 	cell.priorityLabel.text = [NSString stringWithFormat:@"%d", todo.priorityNumber];
 
@@ -149,6 +149,24 @@
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
 
 	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+}
+
+
+#
+# pragma mark - Action Handlers
+#
+
+
+- (IBAction)itemSwiped:(UISwipeGestureRecognizer*)sender {
+	
+	if (self.itemSwipeGestureRecognizer.state == UIGestureRecognizerStateRecognized) {
+
+		CGPoint swipeLocation = [self.itemSwipeGestureRecognizer locationInView:self.tableView];
+		NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:swipeLocation];
+		Todo* todo = self.todos[indexPath.row];
+		todo.completed = !todo.completed;
+		[self.tableView reloadData];
+	}
 }
 
 

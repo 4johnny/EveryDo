@@ -17,5 +17,7 @@
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
 
+@property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *itemSwipeGestureRecognizer;
+
 @end
 
