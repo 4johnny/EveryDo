@@ -165,7 +165,7 @@
 		NSIndexPath *indexPath = [self.tableView indexPathForRowAtPoint:swipeLocation];
 		Todo* todo = self.todos[indexPath.row];
 		todo.completed = !todo.completed;
-		[self.tableView reloadData];
+		[self.tableView reloadRowsAtIndexPaths:[NSArray arrayWithObject:indexPath] withRowAnimation:UITableViewRowAnimationFade];
 	}
 }
 
