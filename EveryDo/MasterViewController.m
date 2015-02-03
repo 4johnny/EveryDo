@@ -12,31 +12,54 @@
 #import "Todo.h"
 
 
+#
+# pragma mark - Interface
+#
+
+
 @interface MasterViewController ()
 
 @end
 
 
+#
+# pragma mark - Implementation
+#
+
+
 @implementation MasterViewController
+
+
+#
+# pragma mark NSObject(UINibLoadingAdditions)
+#
 
 
 - (void)awakeFromNib {
 	[super awakeFromNib];
+	
 	if ([[UIDevice currentDevice] userInterfaceIdiom] == UIUserInterfaceIdiomPad) {
+		
 		self.clearsSelectionOnViewWillAppear = NO;
 		self.preferredContentSize = CGSizeMake(320.0, 600.0);
 	}
 }
 
 
+#
+# pragma mark UIViewController
+#
+
+
 - (void)viewDidLoad {
 	[super viewDidLoad];
+	
 	// Do any additional setup after loading the view, typically from a nib.
 	
 	self.navigationItem.leftBarButtonItem = self.editButtonItem;
 	
-//	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
-//	self.navigationItem.rightBarButtonItem = addButton;
+	//	UIBarButtonItem *addButton = [[UIBarButtonItem alloc] initWithBarButtonSystemItem:UIBarButtonSystemItemAdd target:self action:@selector(insertNewObject:)];
+	//	self.navigationItem.rightBarButtonItem = addButton;
 	
 	self.detailViewController = (DetailViewController *)[[self.splitViewController.viewControllers lastObject] topViewController];
 }
@@ -44,12 +67,14 @@
 
 - (void)didReceiveMemoryWarning {
 	[super didReceiveMemoryWarning];
+	
 	// Dispose of any resources that can be recreated.
+	
 }
 
 
 #
-# pragma mark - Segues
+# pragma mark Segues
 #
 
 
@@ -61,7 +86,7 @@
 		Todo* todo = self.todos[indexPath.row];
 		
 		DetailViewController *controller = (DetailViewController *)[segue.destinationViewController topViewController];
-		[controller setDetailItem:todo];
+		controller.todo = todo;
 		controller.navigationItem.leftBarButtonItem = self.splitViewController.displayModeButtonItem;
 		controller.navigationItem.leftItemsSupplementBackButton = YES;
 		
@@ -74,7 +99,7 @@
 
 
 #
-# pragma mark - Table View
+# pragma mark <UITableViewDataSource>
 #
 
 
@@ -126,7 +151,7 @@
 
 
 #
-# pragma mark - PlayerDetailsViewControllerDelegate
+# pragma mark <AddTodoViewControllerDelegate>
 #
 
 
@@ -153,7 +178,7 @@
 
 
 #
-# pragma mark - Action Handlers
+# pragma mark Action Handlers
 #
 
 
@@ -171,7 +196,7 @@
 
 
 #
-# pragma mark - Helpers
+# pragma mark Helpers
 #
 
 

@@ -10,6 +10,14 @@
 
 
 #
+# pragma mark - Constants
+#
+
+
+#define TODO_DEFAULT_KEY @"todoDefault"
+
+
+#
 # pragma mark - Interface
 #
 

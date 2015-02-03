@@ -72,9 +72,16 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <toolbarItems/>
-                    <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM"/>
+                    <navigationItem key="navigationItem" title="Detail" id="mOI-FS-AaM">
+                        <barButtonItem key="rightBarButtonItem" title="Default" id="zrA-7g-SJU">
+                            <connections>
+                                <action selector="defaultPressed:" destination="JEX-9P-axG" id="ktY-Cz-wFC"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
                         <outlet property="completedLabel" destination="vZL-qM-7Sb" id="DDc-8m-bXn"/>
+                        <outlet property="defaultBarButtonItem" destination="zrA-7g-SJU" id="qLL-Tj-DxP"/>
                         <outlet property="descriptionLabel" destination="0XM-y9-sOw" id="2XX-0F-d4Z"/>
                         <outlet property="priorityLabel" destination="OaV-xv-HCn" id="J8o-Xz-qBx"/>
                         <outlet property="titleLabel" destination="kMk-ae-5YP" id="bte-S9-bUJ"/>

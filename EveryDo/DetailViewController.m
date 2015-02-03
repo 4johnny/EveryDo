@@ -10,56 +10,87 @@
 #import "Todo.h"
 
 
+#
+# pragma mark - Interface
+#
+
+
 @interface DetailViewController ()
 
 @end
+
+
+#
+# pragma mark - Implementation
+#
 
 
 @implementation DetailViewController
 
 
 #
-# pragma mark - Managing the detail item
+# pragma mark Accessors
 #
 
 
-- (void)setDetailItem:(id)newDetailItem {
+- (void)setTodo:(Todo*)todo {
 	
-	if (_detailItem != newDetailItem) {
-	    _detailItem = newDetailItem;
-	        
-	    // Update the view.
-	    [self configureView];
-	}
+	if (_todo == todo) return;
+	
+	_todo = todo;
+	[self configureView];
 }
 
 
-- (void)configureView {
-	// Update the user interface for the detail item.
-	
-	if (self.detailItem) {
-		Todo* todo = (Todo*)self.detailItem;
-		
-		self.titleLabel.text = todo.titleText;
-	    self.descriptionLabel.text = todo.descriptionText;
-		self.priorityLabel.text = [NSString stringWithFormat:@"%d", todo.priorityNumber];
-		self.completedLabel.text = todo.isCompleted ? @"YES" : @"NO";
-	}
-}
+#
+# pragma mark UIViewController
+#
 
 
 - (void)viewDidLoad {
-	
 	[super viewDidLoad];
+	
 	// Do any additional setup after loading the view, typically from a nib.
+	
 	[self configureView];
 }
 
 
 - (void)didReceiveMemoryWarning {
-	
 	[super didReceiveMemoryWarning];
+	
 	// Dispose of any resources that can be recreated.
+	
+}
+
+
+#
+# pragma mark Action Handlers
+#
+
+
+- (IBAction)defaultPressed:(UIBarButtonItem *)sender {
+	
+	// Archive existing todo as user default for new todos
+	NSData* defaultTodoData = [NSKeyedArchiver archivedDataWithRootObject:(Todo*)self.todo];
+	[[NSUserDefaults standardUserDefaults] setObject:defaultTodoData forKey:TODO_DEFAULT_KEY];
+}
+
+
+#
+# pragma mark Helpers
+#
+
+
+- (void)configureView {
+	// Update the user interface for the todo.
+	
+	if (!self.todo) return;
+
+	self.titleLabel.text = self.todo.titleText;
+	self.descriptionLabel.text = self.todo.descriptionText;
+	self.priorityLabel.text = [NSString stringWithFormat:@"%d", self.todo.priorityNumber];
+	self.completedLabel.text = self.todo.isCompleted ? @"YES" : @"NO";
 }
 
 

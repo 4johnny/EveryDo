@@ -10,12 +10,28 @@
 #import "Todo.h"
 
 
-@interface AddTodoViewController ()
+#
+# pragma mark - Interface
+#
+
+
+@interface AddTodoViewController()
 
 @end
 
 
+#
+# pragma mark - Implementation
+#
+
+
 @implementation AddTodoViewController
+
+
+#
+# pragma mark UIViewController
+#
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
@@ -25,16 +41,42 @@
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+
+	// Populate fields with unarchived user default todo
+	NSData* defaultTodoData = [[NSUserDefaults standardUserDefaults] objectForKey:TODO_DEFAULT_KEY];
+	Todo* defaultTodo = [NSKeyedUnarchiver unarchiveObjectWithData:defaultTodoData];
+	self.titleTextField.text = defaultTodo.titleText;
+	self.descriptionTextField.text = defaultTodo.descriptionText;
+	self.priorityTextField.text = [NSString stringWithFormat:@"%d", defaultTodo.priorityNumber];
 }
+
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
+	
     // Dispose of any resources that can be recreated.
+	
 }
 
 
+/*
+ #
+ # pragma mark Segues
+ #
+
+ 
+ // In a storyboard-based application, you will often want to do a little preparation before navigation
+ - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+ 
+	 // Get the new view controller using [segue destinationViewController].
+	 // Pass the selected object to the new view controller.
+ 
+ }
+ */
+
+
 #
-# pragma mark - Button action handlers
+# pragma mark Action Handlers
 #
 
 
@@ -54,17 +96,5 @@
 	[self.delegate addTodoViewController:self didAddTodo:todo];
 }
 
-
-/*
-#
-# pragma mark - Navigation
-#
-
-// In a storyboard-based application, you will often want to do a little preparation before navigation
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
-    // Get the new view controller using [segue destinationViewController].
-    // Pass the selected object to the new view controller.
-}
-*/
 
 @end

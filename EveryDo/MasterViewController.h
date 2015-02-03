@@ -11,11 +11,24 @@
 
 @class DetailViewController;
 
+
+#
+# pragma mark - Interface
+#
+
 @interface MasterViewController : UITableViewController <UITableViewDataSource, AddTodoViewControllerDelegate>
+
+#
+# pragma mark Properties
+#
 
 @property NSMutableArray *todos;
 
 @property (strong, nonatomic) DetailViewController *detailViewController;
+
+#
+# pragma mark Outlets
+#
 
 @property (strong, nonatomic) IBOutlet UISwipeGestureRecognizer *itemSwipeGestureRecognizer;
 

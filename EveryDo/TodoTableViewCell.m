@@ -9,7 +9,17 @@
 #import "TodoTableViewCell.h"
 
 
+#
+# pragma mark - Implementation
+#
+
+
 @implementation TodoTableViewCell
+
+
+#
+# pragma mark NSObject(UINibLoadingAdditions)
+#
 
 
 - (void)awakeFromNib {
@@ -17,10 +27,16 @@
 }
 
 
+#
+# pragma mark UITableViewCell
+#
+
+
 - (void)setSelected:(BOOL)selected animated:(BOOL)animated {
     [super setSelected:selected animated:animated];
 
     // Configure the view for the selected state
+	
 }
 
 

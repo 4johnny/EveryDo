@@ -8,7 +8,16 @@
 
 #import <UIKit/UIKit.h>
 
+
+#
+# pragma mark - Interface
+#
+
 @interface TodoTableViewCell : UITableViewCell
+
+#
+# pragma mark Outlets
+#
 
 @property (weak, nonatomic) IBOutlet UILabel *titleLabel;
 @property (weak, nonatomic) IBOutlet UILabel *descriptionLabel;
