@@ -118,7 +118,7 @@
 + (NSString*)getArchiveFilePath {
 	
 	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-	NSString* documentsDirectoryPath = [paths objectAtIndex:0];
+	NSString* documentsDirectoryPath = paths.firstObject;
 	
 	return [documentsDirectoryPath stringByAppendingPathComponent:@"EveryDoAppDataArchive"];
 }
@@ -134,6 +134,23 @@
 
 	// No data archived, so load dummy data for demo purposes
 	
+	return [AppDelegate loadDummyTodosModel];
+}
+
+
++ (void)saveTodosModel:(NSArray*)todosModel {
+	
+	[NSKeyedArchiver archiveRootObject:todosModel toFile:[AppDelegate getArchiveFilePath]];
+}
+
+
+#
+# pragma mark Helpers
+#
+
+
++ (NSMutableArray*)loadDummyTodosModel {
+	
 	NSMutableArray* todos = [NSMutableArray arrayWithCapacity:5];
 	
 	[todos addObject:[Todo todoWithTitle:@"Do laundry" andDescription:@"Laundromat closes at 9pm" andPriorityNumber:1 andCompleted:NO]];
@@ -147,12 +164,6 @@
 	[todos addObject:[Todo todoWithTitle:@"Do homework" andDescription:@"Assignments 4 & 5" andPriorityNumber:4 andCompleted:YES]];
 	
 	return todos;
-}
-
-
-+ (void)saveTodosModel:(NSArray*)todosModel {
-	
-	[NSKeyedArchiver archiveRootObject:todosModel toFile:[AppDelegate getArchiveFilePath]];
 }
 
 
