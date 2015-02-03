@@ -51,10 +51,10 @@
 	splitViewController.delegate = self;
 
 	// Load model, and inject into master view controller.
-	NSMutableArray* todos = [AppDelegate loadTodosModel];
+	self.todos = [AppDelegate loadTodosModel];
 	UINavigationController *primaryNavigationController = [splitViewController.viewControllers firstObject];
 	MasterViewController* masterViewController = primaryNavigationController.viewControllers[0];
-	masterViewController.todos = todos;
+	masterViewController.todos = self.todos;
 	
 	return YES;
 }
@@ -69,6 +69,8 @@
 - (void)applicationDidEnterBackground:(UIApplication *)application {
 	// Use this method to release shared resources, save user data, invalidate timers, and store enough application state information to restore your application to its current state in case it is terminated later.
 	// If your application supports background execution, this method is called instead of applicationWillTerminate: when the user quits.
+	
+	[AppDelegate saveTodosModel:self.todos];
 }
 
 
@@ -84,6 +86,8 @@
 
 - (void)applicationWillTerminate:(UIApplication *)application {
 	// Called when the application is about to terminate. Save data if appropriate. See also applicationDidEnterBackground:.
+	
+	[AppDelegate saveTodosModel:self.todos];
 }
 
 
@@ -111,7 +115,24 @@
 #
 
 
++ (NSString*)getArchiveFilePath {
+	
+	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+	NSString* documentsDirectoryPath = [paths objectAtIndex:0];
+	
+	return [documentsDirectoryPath stringByAppendingPathComponent:@"EveryDoAppDataArchive"];
+}
+
+
 + (NSMutableArray*)loadTodosModel {
+
+	// Load data model from archive
+	
+	NSArray* archivedTodos = [NSKeyedUnarchiver unarchiveObjectWithFile:[AppDelegate getArchiveFilePath]];
+	if (archivedTodos && archivedTodos.count > 0) return [archivedTodos mutableCopy];
+	//	if (archivedTodos) return [archivedTodos mutableCopy];
+
+	// No data archived, so load dummy data for demo purposes
 	
 	NSMutableArray* todos = [NSMutableArray arrayWithCapacity:5];
 	
@@ -126,6 +147,12 @@
 	[todos addObject:[Todo todoWithTitle:@"Do homework" andDescription:@"Assignments 4 & 5" andPriorityNumber:4 andCompleted:YES]];
 	
 	return todos;
+}
+
+
++ (void)saveTodosModel:(NSArray*)todosModel {
+	
+	[NSKeyedArchiver archiveRootObject:todosModel toFile:[AppDelegate getArchiveFilePath]];
 }
 
 
