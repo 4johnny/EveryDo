@@ -8,6 +8,7 @@
 
 #import "MasterViewController.h"
 #import "DetailViewController.h"
+#import "AddTodoViewController.h"
 #import "TodoTableViewCell.h"
 #import "Todo.h"
 
@@ -156,24 +157,32 @@
 
 
 - (void)addTodoViewControllerDidCancel:(AddTodoViewController*)controller {
-	
+
+	// Dismiss modal "add" view
 	[self dismissViewControllerAnimated:YES completion:nil];
+	
+	// Delete auto-save cache
+	[NSFileManager.defaultManager removeItemAtPath:[AddTodoViewController getCacheFilePath] error:nil];
 }
 
 
 - (void)addTodoViewController:(AddTodoViewController*)controller didAddTodo:(Todo*)todo {
 
+	// Dismiss modal "add" view
 	[self dismissViewControllerAnimated:YES completion:nil];
 
+	// Insert newly added todo item in data model
 	if (!self.todos) {
 		self.todos = [[NSMutableArray alloc] init];
 	}
-	
 	[self.todos insertObject:todo atIndex:0];
 	
+	// Update table view
 	NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:0];
-
 	[self.tableView insertRowsAtIndexPaths:@[indexPath] withRowAnimation:UITableViewRowAnimationAutomatic];
+	
+	// Delete auto-save cache
+	[NSFileManager.defaultManager removeItemAtPath:[AddTodoViewController getCacheFilePath] error:nil];
 }
 
 

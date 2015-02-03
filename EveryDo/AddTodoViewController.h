@@ -44,4 +44,10 @@
 @property (weak, nonatomic) IBOutlet UITextField *descriptionTextField;
 @property (weak, nonatomic) IBOutlet UITextField *priorityTextField;
 
+#
+# pragma mark Helpers
+#
+
++ (NSString*)getCacheFilePath;
+
 @end

@@ -35,19 +35,27 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
+	
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
     
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 
-	// Populate fields with unarchived user default todo
-	NSData* defaultTodoData = [[NSUserDefaults standardUserDefaults] objectForKey:TODO_DEFAULT_KEY];
-	Todo* defaultTodo = [NSKeyedUnarchiver unarchiveObjectWithData:defaultTodoData];
-	self.titleTextField.text = defaultTodo.titleText;
-	self.descriptionTextField.text = defaultTodo.descriptionText;
-	self.priorityTextField.text = [NSString stringWithFormat:@"%d", defaultTodo.priorityNumber];
+	// Check if system crashed previously
+	Todo* cachedTodo = [NSKeyedUnarchiver unarchiveObjectWithFile:[AddTodoViewController getCacheFilePath]];
+	if (cachedTodo) {
+		
+		// Populate controls from auto-saved cache
+		[self loadControlsFromTodo:cachedTodo];
+		
+	} else {
+		
+		// Populate controls with unarchived user default todo
+		NSData* defaultTodoData = [[NSUserDefaults standardUserDefaults] objectForKey:TODO_DEFAULT_KEY];
+		Todo* defaultTodo = [NSKeyedUnarchiver unarchiveObjectWithData:defaultTodoData];
+		[self loadControlsFromTodo:defaultTodo];
+	}
 }
 
 
@@ -88,12 +96,45 @@
 
 - (IBAction)donePressed:(id)sender {
 	
-	Todo* todo = [Todo todoWithTitle:self.titleTextField.text
-					  andDescription:self.descriptionTextField.text
-				   andPriorityNumber:[[[NSNumberFormatter alloc] init] numberFromString:self.priorityTextField.text].intValue
-						andCompleted:NO];
+	[self.delegate addTodoViewController:self didAddTodo:[self todoFromControls]];
+}
+
+
+- (IBAction)textChanged {
+
+	// Auto-save all fields in cache in case system crashes
+	[NSKeyedArchiver archiveRootObject:[self todoFromControls] toFile:[AddTodoViewController getCacheFilePath]];
+}
+
+
+#
+# pragma mark Helpers
+#
+
+
+- (void)loadControlsFromTodo:(Todo*)todo {
+
+	self.titleTextField.text = todo.titleText;
+	self.descriptionTextField.text = todo.descriptionText;
+	self.priorityTextField.text = [NSString stringWithFormat:@"%d", todo.priorityNumber];
+}
+
+
+- (Todo*)todoFromControls {
 	
-	[self.delegate addTodoViewController:self didAddTodo:todo];
+	return [Todo todoWithTitle:self.titleTextField.text
+				andDescription:self.descriptionTextField.text
+			 andPriorityNumber:[[[NSNumberFormatter alloc] init] numberFromString:self.priorityTextField.text].intValue
+				  andCompleted:NO];
+}
+
+
++ (NSString*)getCacheFilePath {
+	
+	NSArray* paths = NSSearchPathForDirectoriesInDomains(NSCachesDirectory, NSUserDomainMask, YES);
+	NSString* cachesDirectoryPath = paths.firstObject;
+	
+	return [cachesDirectoryPath stringByAppendingPathComponent:@"EveryDoAppDataCache"];
 }
 
 
