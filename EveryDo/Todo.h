@@ -8,12 +8,25 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Todo : NSObject
+
+#
+# pragma mark - Interface
+#
+
+@interface Todo : NSObject <NSCoding>
+
+#
+# pragma mark Properties
+#
 
 @property (nonatomic) NSString* titleText;
 @property (nonatomic) NSString* descriptionText;
 @property (nonatomic) int priorityNumber;
 @property (nonatomic, getter=isCompleted) BOOL completed;
+
+#
+# pragma mark Initialization
+#
 
 + (Todo*)todoWithTitle:(NSString*) title andDescription:(NSString*) description andPriorityNumber:(int)priorityNumber andCompleted:(BOOL)completed;
 
