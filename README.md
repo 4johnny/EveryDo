@@ -1,5 +1,5 @@
 # EveryDo
-iOS Bootcamp Assignment - W3D3 - EveryDo
+iOS Bootcamp Assignment - W3D3 W4D1 - EveryDo
 
 * Build app that allows users to track todos
 * Master-Detail template
@@ -11,3 +11,9 @@ iOS Bootcamp Assignment - W3D3 - EveryDo
 * Swipe gesture
 * Protocol
 * Delegate
+* NSCoding
+* NSKeyedArchiver / NSKeyedUnarchiver
+* NSUserDefaults
+* Documents Directory
+* Cache Directory
+* Auto-save text input real-time
